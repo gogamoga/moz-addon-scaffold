@@ -1,0 +1,16 @@
+#!/bin/sh
+rm init
+rm -rf .git
+git init
+npm init
+if [ $1 ]; then
+	git config user.name "$1"
+fi
+
+if [ $2 ]; then
+	git config user.email "$2"
+fi
+
+git add .
+git commit -m "Initial commit"
+
