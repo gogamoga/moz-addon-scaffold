@@ -1,5 +1,6 @@
 #!/bin/sh
 rm init
+mkdir -p source/test
 rm -rf .git
 git init
 npm init
