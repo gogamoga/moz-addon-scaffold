@@ -4,9 +4,6 @@ dist = './dist'
 src = './source'
 test = './build/test'
 
-staticPaths =
-  "/": dist
-
 # Preparations
 
 gulp = require 'gulp'
@@ -19,6 +16,7 @@ coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 exec = require 'gulp-exec'
 rename = require 'gulp-rename'
+uglify = require 'gulp-uglify'
 
 # Tasks
 
@@ -51,5 +49,19 @@ gulp.task 'test', ->
             globals:
               should: require 'should'
 
+gulp.task 'build', (cb) ->
+  runSequence 'clean', 'compile', cb
+
+gulp.task 'dist', ["build"], ->
+  gulp
+    .src ["#{build}/**/*.js", "!#{build}/**/_*.js", "!#{test}/**/*"]
+    .pipe gulp.dest dist
+
+gulp.task 'mindist', ["build"], ->
+  gulp
+    .src ["#{build}/**/*.js", "!#{build}/**/_*.js", "!#{test}/**/*"]
+    .pipe uglify()
+    .pipe gulp.dest dist
+
 gulp.task 'default', (cb) ->
-  runSequence 'clean', 'compile', 'test', cb
+  runSequence 'build', 'test', cb
