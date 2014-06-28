@@ -1,7 +1,11 @@
 /node_modules/
 /bower_components/
-/test/
-/dist/
+/source/
 /build/
-/.idea/
+
+gulpfile.*
+.npmignore
+.editorconfig
+.coffeelint
+coffeelint.json
 npm-debug.log
