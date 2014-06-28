@@ -1,7 +1,8 @@
 #!/bin/sh
+git checkout dev
 git checkout master
-git rm init
 git remote rm origin
+git rm init
 
 echo > README.md
 
