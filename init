@@ -1,6 +1,8 @@
 #!/bin/sh
 rm init
 mkdir -p source/test
+rm README.md
+rm LICENSE
 rm -rf .git
 git init
 npm init
