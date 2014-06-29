@@ -20,7 +20,7 @@ git commit -m "Initial commit"
 
 git checkout dev
 
-npm install --save-dev gulp gulp-coffee gulp-cache gulp-coffeelint gulp-util gulp-mocha gulp-rimraf run-sequence coffee-script coffeelint coffeelint-stylish should gulp-exec gulp-rename
+npm install --save-dev gulp gulp-coffee gulp-cache gulp-coffeelint gulp-util gulp-mocha gulp-rimraf run-sequence coffee-script coffeelint coffeelint-stylish should gulp-exec gulp-rename gulp-uglify
 
 git add package.json
 git commit -m "Added dev dependencies"
