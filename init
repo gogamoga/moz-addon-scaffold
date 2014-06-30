@@ -13,8 +13,10 @@ if [ $2 ]; then
 fi
 
 git update-ref -d refs/heads/master
+rm README.md
 git add .
 git commit -m "Scaffold Initialized"
+
 git checkout --orphan clean
 git rm . -rf
 git update-ref -d refs/heads/clean
@@ -27,6 +29,7 @@ git rebase clean
 git checkout dev
 npm install --save-dev gulp gulp-coffee gulp-cache gulp-coffeelint gulp-util gulp-mocha gulp-rimraf run-sequence coffee-script coffeelint coffeelint-stylish should gulp-exec gulp-rename gulp-uglify
 git update-ref -d refs/heads/dev
+rm README.md
 git add .
 git commit -m "Scaffold Initialized"
 git rebase clean
