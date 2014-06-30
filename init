@@ -1,10 +1,7 @@
 #!/bin/sh
 git checkout dev
 git checkout master
-git remote rm origin
 git rm init
-
-echo > README.md
 
 npm init
 if [ $1 ]; then
@@ -15,12 +12,23 @@ if [ $2 ]; then
 	git config user.email "$2"
 fi
 
+git update-ref -d refs/heads/master
 git add .
-git commit -m "Initial commit"
+git commit -m "Scaffold Initialized"
+git checkout --orphan clean
+git rm . -rf
+git update-ref -d refs/heads/clean
+touch README.md
+git add .
+git commit -m "Clean master"
+git checkout master
+git rebase clean
 
 git checkout dev
-
 npm install --save-dev gulp gulp-coffee gulp-cache gulp-coffeelint gulp-util gulp-mocha gulp-rimraf run-sequence coffee-script coffeelint coffeelint-stylish should gulp-exec gulp-rename gulp-uglify
-
-git add package.json
-git commit -m "Added dev dependencies"
+git update-ref -d refs/heads/dev
+git add .
+git commit -m "Scaffold Initialized"
+git rebase clean
+git remote rm origin
+git branch clean -D
