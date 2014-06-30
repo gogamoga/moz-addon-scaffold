@@ -45,9 +45,9 @@ gulp.task 'test', ->
   gulp
     .src ["#{test}/**/*.js"], read: false
     .pipe mocha
-            reporter: 'spec'
-            globals:
-              should: require 'should'
+      reporter: 'spec'
+      globals:
+        should: require 'should'
 
 gulp.task 'build', (cb) ->
   runSequence 'clean', 'compile', cb
