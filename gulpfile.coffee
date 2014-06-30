@@ -61,6 +61,10 @@ gulp.task 'mindist', ["build"], ->
   gulp
     .src ["#{build}/**/*.js", "!#{build}/**/_*.js", "!#{test}/**/*"]
     .pipe uglify()
+    .pipe uglify()
+      .on 'error', (e) ->
+        console.log '\x07', e.message
+        return this.end()
     .pipe gulp.dest dist
 
 gulp.task 'default', (cb) ->
