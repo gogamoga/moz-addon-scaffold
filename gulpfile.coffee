@@ -17,6 +17,16 @@ coffeelint = require 'gulp-coffeelint'
 exec = require 'gulp-exec'
 rename = require 'gulp-rename'
 uglify = require 'gulp-uglify'
+prettify = require 'gulp-js-prettify'
+
+prettifyOptions =
+  indent_size: 2
+  indent_level: 0
+  indent_char: ' '
+  brace_style: 'collapse'
+  break_chained_methods: false
+  jslint_happy: true
+  wrap_line_length: 70
 
 # Tasks
 
@@ -55,12 +65,12 @@ gulp.task 'build', (cb) ->
 gulp.task 'dist', ["build"], ->
   gulp
     .src ["#{build}/**/*.js", "!#{build}/**/_*.js", "!#{test}/**/*"]
+    .pipe prettify prettifyOptions
     .pipe gulp.dest dist
 
 gulp.task 'mindist', ["build"], ->
   gulp
     .src ["#{build}/**/*.js", "!#{build}/**/_*.js", "!#{test}/**/*"]
-    .pipe uglify()
     .pipe uglify()
       .on 'error', (e) ->
         console.log '\x07', e.message
