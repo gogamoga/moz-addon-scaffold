@@ -32,8 +32,8 @@ prettifyOptions =
 
 gulp.task 'clean', ->
   gulp
-    .src ["#{build}/*", "#{dist}/*", "#{test}/*"
-            build, dist, test], read: false
+    .src ["#{build}/*", "#{dist}/*", 
+            build, dist], read: false
     .pipe rimraf force: true
 
 gulp.task 'lint-coffee', ->
