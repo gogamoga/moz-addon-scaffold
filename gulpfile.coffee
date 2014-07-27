@@ -3,6 +3,7 @@ build = './build'
 dist = './dist'
 source = './source'
 test = './build/test'
+stylusPaths = ['./lib/stylus']
 
 # Preparations
 
@@ -20,6 +21,8 @@ rename = require 'gulp-rename'
 uglify = require 'gulp-uglify'
 prettify = require 'gulp-js-prettify'
 jeditor = require 'gulp-json-editor'
+jade = require 'gulp-jade'
+stylus = require 'gulp-stylus'
 git = require 'gulp-git'
 
 prettifyOptions =
@@ -51,8 +54,28 @@ gulp.task 'compile-coffee', ["lint-coffee"], ->
     .pipe coffee(bare: true).on 'error', util.log
     .pipe gulp.dest build
 
+gulp.task 'compile-stylus', ->
+  gulp
+    .src ["#{source}/**/*.styl"]
+    .pipe stylus(paths: stylusPaths)
+    .pipe gulp.dest build
+
+gulp.task 'compile-jade', ->
+  gulp
+    .src ["#{source}/**/*.jade"]
+    .pipe jade()
+    .pipe gulp.dest build
+
+gulp.task 'copy-assets', ->
+  gulp
+    .src [
+      "#{source}/**/*.*"
+      "#{source}/**/*"
+      "!#{source}/**/*.+(litcoffee|coffee|jade|styl)" ]
+    .pipe gulp.dest 'build'
+
 gulp.task 'compile', (cb) ->
-  runSequence 'compile-coffee', cb
+  runSequence 'compile-coffee', 'compile-jade', 'compile-stylus', cb
 
 gulp.task 'test', ->
   gulp
