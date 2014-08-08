@@ -1,14 +1,14 @@
-coffee-project-scaffold
-=======================
+moz-addon-scaffold
+==================
 
-Scaffold for coffeescript nodejs development with gulp and mocha
+Scaffold for Mozilla Addons (sdk, coffee, gulp, mocha, jade, stylus)
 
 Usage
 -----
-	git clone https://github.com/nhz-io/nhz.io-coffee-project-scaffold.git project_name
-	cd project_name
-	sh init [AUTHOR_NAME [AUTHOR_EMAIL]]
-
+	git clone https://github.com/gogamoga/moz-project-scaffold.git addon_name
+	cd addon_name
+	npm install
+	node init
 
 License
 -------
