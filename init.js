@@ -1,14 +1,16 @@
+var cwd = process.cwd();
 var Git = require('git-wrapper');
 var fs = require('fs');
 var npm = require('npm');
 var git = new Git;
+
 
 var npm_install_args = [
   "gulp", "gulp-coffee", "gulp-cache", "gulp-coffeelint", "gulp-util",
   "gulp-mocha", "gulp-rimraf", "run-sequence", "coffee-script", "coffeelint",
   "coffeelint-stylish", "should", "gulp-exec", "gulp-rename", "gulp-uglify",
   "gulp-js-prettify", "gulp-git", "gulp-json-editor", "gulp-jade", "gulp-stylus",
-  "gulp-watch"
+  "gulp-watch", "cfx"
 ];
 
 var git_master, git_dev;
@@ -133,18 +135,30 @@ git_dev = function() {
                     if (err) throw(err);
                     console.log(msg);
 
-                    git.exec('commit --amend --no-edit', function(err, msg) {
-                      if (err) throw(err);
-                      console.log(msg);
-
-                      git.exec('remote rm origin', function(err, msg) {
-                        if (!err && msg) console.log(msg);
-
-                        git.exec('branch -D clean', function(err, msg) {
+                    var pkg = require('./package.json')
+                    fs.mkdirSync(cwd + '/' + pkg.name);
+                    var cfx = require('cfx');
+                    var proc = cfx.init({dir: cwd + '/' +pkg.name});
+                    proc.stdout.on('data', function(data) { console.log(''+data); });
+                    proc.on('close', function(err) {
+                      if(err) throw(err)
+                      fs.renameSync(cwd + '/' + pkg.name, cwd + '/source');
+                      git.exec('add '+ cwd + '/source', function(err, msg){
+                        if (err) throw(err)
+                        console.log(msg);
+                        git.exec('commit --amend --no-edit', function(err, msg) {
                           if (err) throw(err);
                           console.log(msg);
+                          git.exec('remote rm origin', function(err, msg) {
+                            if (!err && msg) console.log(msg);
 
-                          console.log("DONE!");
+                            git.exec('branch -D clean', function(err, msg) {
+                              if (err) throw(err);
+                              console.log(msg);
+
+                              console.log("DONE!");
+                            });
+                          });
                         });
                       });
                     });
